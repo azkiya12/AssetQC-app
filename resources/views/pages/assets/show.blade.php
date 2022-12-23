@@ -2,14 +2,14 @@
 @section('title', 'Show Asset')
 @section('content')
     <div class="panel-header bg-primary-gradient">
-        <div class="page-inner py-5">
+        <div class="py-5 page-inner">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div>
-                    <h2 class="text-white pb-2 fw-bold">{{ $item->name }}</h2>
-                    <h5 class="text-white op-7 mb-2">{{ $item->asset_taq }}</h5>
+                    <h2 class="pb-2 text-white fw-bold">{{ $item->name }}</h2>
+                    <h5 class="mb-2 text-white op-7">{{ $item->asset_taq }}</h5>
                 </div>
-                <div class="ml-md-auto py-2 py-md-0">
-                    <a href="{{route('asset.edit', $item->id)}}" class="btn btn-white btn-border btn-round mr-2">Edit</a>
+                <div class="py-2 ml-md-auto py-md-0">
+                    <a href="{{route('asset.edit', $item->id)}}" class="mr-2 btn btn-white btn-border btn-round">Edit</a>
                     <a href="#" class="btn btn-secondary btn-round">Export PDF</a>
                 </div>
             </div>
@@ -132,6 +132,30 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadFile">
+                                <i class="mr-1 icon-paper-clip"></i>
+                               <span>Upload</span>
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button> --}}
+                                        </div>
+                                        <div class="modal-body">
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -145,6 +169,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     <tr>
                                         <td></td>
                                         <td>Mark</td>

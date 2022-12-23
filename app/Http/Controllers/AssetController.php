@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Manufaktur;
 use App\Models\Status;
+use App\Models\DokumenAsset;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssetRequest;
 use Illuminate\Support\Facades\Auth;
@@ -111,12 +112,15 @@ class AssetController extends Controller
         $locations = Location::all();
         $manufakturs = Manufaktur::all();
         $statuses = Status::all();
+        $document = DokumenAsset::all();
+
         return view('pages.assets.show', [
             'item'=>$asset, 
             'categories'=>$categories,
             'locations'=>$locations,
             'manufakturs'=>$manufakturs,
-            'statuses'=>$statuses
+            'statuses'=>$statuses,
+            'dokumenasset'=>$document,
         ]);
     }
 
