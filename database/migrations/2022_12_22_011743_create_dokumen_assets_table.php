@@ -15,8 +15,10 @@ class CreateDokumenAssetsTable extends Migration
     {
         Schema::create('dokumen_assets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('note');
+            $table->string('fileName');
+            $table->string('filePath');
+            $table->string('fileSize');
+            $table->text('note')->nullable();
             $table->foreignId('asset_id')->references('id')->on('assets')->onDelete('cascade');
             $table->timestamps();
         });

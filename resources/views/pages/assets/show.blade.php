@@ -1,6 +1,15 @@
 @extends('layouts.atlantis')
 @section('title', 'Show Asset')
+@push('prepend-style')
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+@endpush
+@push('addon-style')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@endpush
+
 @section('content')
+    @include('pages.components.file-upload')
     <div class="panel-header bg-primary-gradient">
         <div class="py-5 page-inner">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
@@ -9,13 +18,18 @@
                     <h5 class="mb-2 text-white op-7">{{ $item->asset_taq }}</h5>
                 </div>
                 <div class="py-2 ml-md-auto py-md-0">
-                    <a href="{{route('asset.edit', $item->id)}}" class="mr-2 btn btn-white btn-border btn-round">Edit</a>
+                    <a href="{{ route('asset.edit', $item->id) }}" class="mr-2 btn btn-white btn-border btn-round">Edit</a>
                     <a href="#" class="btn btn-secondary btn-round">Export PDF</a>
                 </div>
             </div>
         </div>
     </div>
     <div class="page-inner">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
         <div class="row row-card-no-pd">
             <div class="col-md-12">
                 <div class="card">
@@ -37,7 +51,7 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="card card-pricing">
-                                        
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="card-body">
@@ -125,37 +139,20 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card card-post card-round">
-                                        <img class="card-img-top" src="{{asset('storage/'.$item->photo)}}" alt="Card image cap">
+                                        <img class="card-img-top" src="{{ asset('storage/' . $item->photo) }}"
+                                            alt="Card image cap">
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
-                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#uploadFile">
+                            <a href="javascript:void(0)" class="btn btn-primary btn-sm" id="btn-upload-file"
+                                data-id="{{ $item->id }}">
                                 <i class="mr-1 icon-paper-clip"></i>
-                               <span>Upload</span>
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                            {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button> --}}
-                                        </div>
-                                        <div class="modal-body">
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <span>Upload</span>
+                            </a>
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -163,22 +160,38 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Note</th>
                                         <th scope="col">File size</th>
-                                        <th scope="col">Download</th>
-                                        <th scope="col">Create at</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                    <tr>
-                                        <td></td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
+                                <tbody id="table-file">
+                                    @foreach ($item->documents->sortByDesc('id') as $file)
+                                        <tr id="index_{{ $file->id }}">
+                                            <td>
+                                                @php
+                                                    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+                                                    $pathInfo = pathinfo(asset('storage/' . $file->filePath));
+                                                @endphp
+                                                @if (in_array($pathInfo['extension'], $imageExtensions))
+                                                    <img src="{{ asset('storage/' . $file->filePath) }}" alt=""
+                                                style="max-width: 150px">
+                                                @endif
+                                            </td>
+                                            <td>{{ $file->fileName }}</td>
+                                            <td>{{ $file->note }}</td>
+                                            <td>{{ $file->fileSize }}</td>
+                                            <td>
+                                                <a href="{{ asset('storage/' . $file->filePath) }}"
+                                                    class="btn btn-default btn-sm px-2" data-toggle="tooltip"
+                                                    data-placement="top" target="_blank" title="Download">
+                                                    <i class="fas fa-download fa-lg"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" id="btn-delete-post" data-id="{{$file->id}}"
+                                                    data-route="{{ route('destroy-file', $file->id) }}" class="btn btn-danger btn-sm">
+                                                    DELETE
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -190,6 +203,5 @@
             </div>
         </div>
     </div>
-
-    
+    @include('pages.components.file-delete')
 @endsection

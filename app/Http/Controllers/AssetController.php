@@ -108,19 +108,8 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-        $categories = Category::all();
-        $locations = Location::all();
-        $manufakturs = Manufaktur::all();
-        $statuses = Status::all();
-        $document = DokumenAsset::all();
-
         return view('pages.assets.show', [
             'item'=>$asset, 
-            'categories'=>$categories,
-            'locations'=>$locations,
-            'manufakturs'=>$manufakturs,
-            'statuses'=>$statuses,
-            'dokumenasset'=>$document,
         ]);
     }
 

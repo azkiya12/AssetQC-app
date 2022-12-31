@@ -10,8 +10,8 @@
                         world. Today I am wise, so I am changing myself.</h5>
                 </div>
                 <div class="py-2 ml-md-auto py-md-0">
-                    <a href="#" class="mr-2 btn btn-white btn-border btn-round">Manage</a>
-                    <a href="#" class="btn btn-secondary btn-round">Add Asset</a>
+                    <a href="{{ route('asset.index') }}" class="mr-2 btn btn-white btn-border btn-round">Menage</a>
+                    <a href="{{ route('asset.create') }}" class="btn btn-secondary btn-round">Add Asset</a>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Assets</p>
-                                    <h4 class="card-title">1,294</h4>
+                                    <h4 class="card-title">{{ $assets->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Categories</p>
-                                    <h4 class="card-title">1303</h4>
+                                    <h4 class="card-title">{{ $categories->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Location</p>
-                                    <h4 class="card-title">1,345</h4>
+                                    <h4 class="card-title">{{ $location->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                             <div class="col-7 col-stats">
                                 <div class="numbers">
                                     <p class="card-category">Users</p>
-                                    <h4 class="card-title">576</h4>
+                                    <h4 class="card-title">{{ $users->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                         <div class="card-title">Assets</div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover table-responsive-md">
+                        <table class="table table-hover table-responsive-sm">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -116,44 +116,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td><img src="assets/img/productimg/product1.jpeg" alt="..."
-                                            class="mr-2 rounded avatar avatar-img"></td>
-                                    <td><a href="" class="d-block">asdas</a></td>
-                                    <td>Otto</td>
-                                    <td>Location1</td>
-                                    <td>
-                                        <div class="fw-light">21 Apr 2017</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><img src="assets/img/productimg/product2.jpeg" alt="..."
-                                            class="mr-2 rounded avatar avatar-img"></td>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>Location1</td>
-                                    <td>
-                                        <div class="fw-light">21 Apr 2017</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><img src="assets/img/productimg/product3.jpeg" alt="..."
-                                            class="mr-2 rounded avatar avatar-img"></td>
-                                    <td>Larry the Bird</td>
-                                    <td>Thornton</td>
-                                    <td>Location1</td>
-                                    <td>
-                                        <div class="fw-light">21 Apr 2017</div>
-                                    </td>
-                                </tr>
+                                @foreach ($assets as $asset)
+                                    <tr>
+                                        <td></td>
+                                        <td><img src="{{ asset('storage/' . $asset->photo) }}" alt="..."
+                                                class="mr-2 rounded avatar avatar-img"></td>
+                                        <td><a href="{{route('asset.show', $asset->id)}}" class="d-block">{{ $asset->name }}</a></td>
+                                        <td>{{ $asset->category->name }}</td>
+                                        <td>{{ $asset->location->name }}</td>
+                                        <td>
+                                            <div class="fw-light">{{ $asset->created_at }}</div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer">
-                        <a href="#" target="_blank" rel="noopener noreferrer">View all Assets</a>
+                        <a href="{{ route('asset.index') }}" rel="noopener noreferrer">View all Assets</a>
                     </div>
                 </div>
 
@@ -165,44 +146,22 @@
                         <div class="card-title">Categories</div>
                     </div>
                     <div class="pb-0 card-body">
-                        <div class="d-flex">
-                            <div class="flex-1 pt-1 ml-2">
-                                <h6 class="mb-1 fw-bold">Timbangan Digital</h6>
-                                <small class="text-muted">The Best Donuts</small>
+                        @foreach ($categories as $category)
+                            <div class="d-flex">
+                                <div class="flex-1 pt-1 ml-2">
+                                    <h6 class="mb-1 fw-bold">{{$category->name}}</h6>
+                                    <small class="text-muted">{{$category->created_at}}</small>
+                                </div>
+                                <div class="ml-auto d-flex align-items-center">
+                                    <h3 class="text-info fw-bold">{{$category->assets->count()}}<small class="ml-2 text-muted">Asset</small>
+                                    </h3>
+                                </div>
                             </div>
-                            <div class="ml-auto d-flex align-items-center">
-                                <h3 class="text-info fw-bold">17<small class="ml-2 text-muted">Asset</small>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="separator-dashed mt"></div>
-
-                        <div class="d-flex">
-                            <div class="flex-1 pt-1 ml-2">
-                                <h6 class="mb-1 fw-bold">Oven</h6>
-                                <small class="text-muted">The Best Donuts</small>
-                            </div>
-                            <div class="ml-auto d-flex align-items-center">
-                                <h3 class="text-info fw-bold">17<small class="ml-2 text-muted">Asset</small>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="separator-dashed"></div>
-
-                        <div class="d-flex">
-                            <div class="flex-1 pt-1 ml-2">
-                                <h6 class="mb-1 fw-bold">Grinder</h6>
-                                <small class="text-muted">The Best Donuts</small>
-                            </div>
-                            <div class="ml-auto d-flex align-items-center">
-                                <h3 class="text-info fw-bold">4<small class="ml-2 text-muted">Asset</small>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="separator-dashed"></div>
+                            <div class="separator-dashed mt"></div>
+                        @endforeach
                     </div>
                     <div class="card-footer">
-                        <a href="#" rel="noopener noreferrer">View all Categories</a>
+                        <a href="{{route('categories.index')}}" rel="noopener noreferrer">View all Categories</a>
                     </div>
                 </div>
             </div>

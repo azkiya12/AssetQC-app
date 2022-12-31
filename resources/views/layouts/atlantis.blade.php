@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="{{asset('/assets/css/demo.css')}}"> --}}
 	@stack('addon-style')
 </head>
-
+@stack('before-body')
 <body data-background-color="bg3">
 	<div class="wrapper">
 		<div class="main-header">

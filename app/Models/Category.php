@@ -17,6 +17,6 @@ class Category extends Model
      */
     public function assets()
     {
-        return $this->hasMany(assets::class);
+        return $this->hasMany(Asset::class);
     }
 }

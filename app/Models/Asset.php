@@ -42,5 +42,10 @@ class Asset extends Model
         return $this->belongsTo(supplier::class, 'supplier_id', 'id')->withdefault(['name'=> '-']);
     }
 
+    public function documents()
+    {
+        return $this->hasMany(DokumenAsset::class);
+    }
+
     
 }

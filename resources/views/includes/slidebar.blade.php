@@ -5,7 +5,7 @@
 
             <ul class="nav nav-primary">
                 <li class="nav-item {{ (request()->is('dashboard*')) ? 'active' : '' }}">
-                    <a href="/Dasboard.html">
+                    <a href="/dashboard">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>

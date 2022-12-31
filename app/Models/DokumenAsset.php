@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DokumenAsset extends Model
 {
     use HasFactory;
+    protected $fillable = ['fileName', 'filePath', 'note', 'asset_id'];
+    protected $table = 'dokumen_assets';
 }
