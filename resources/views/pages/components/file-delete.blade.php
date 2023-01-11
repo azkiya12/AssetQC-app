@@ -2,7 +2,7 @@
     <script>
     // button create post event
     $('body').on('click','#btn-delete-post', function(e){
-        let aset_id = $(this).data('id');
+        let file_id = $(this).data('id');
         let token = $("meta[name='csrf-token']").attr("content");
 
         Swal.fire({
@@ -22,7 +22,7 @@
                     type: "DELETE",
                     cache: false,
                     data: {
-                        "id": aset_id,
+                        "id": file_id,
                         "_token": token
                     },
                     
@@ -30,7 +30,7 @@
                         console.log('masuk success');
 
                         //remove row of post on table
-                        $(`#index_${aset_id}`).remove();
+                        $(`#index_${file_id}`).remove();
 
                         // show success message
                         Swal.fire('Deleted!', response.message, 'success', 1500);

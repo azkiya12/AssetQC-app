@@ -3,33 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\DokumenAsset;
-use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class DokumenAssetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -40,17 +20,20 @@ class DokumenAssetController extends Controller
     {
         // buat validasi
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:dokumen_assets,fileName',
             'asset_id'=> 'required',
         ]);
 
         //cek jika validasi salah
-        if ($validator ->fails()) {
-            return response()->json($validator->errors(), 422);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            return response()->json([
+                'data' => $errors
+            ]);
         }
         
         $file = $request->file('name');
-		$fileName = 'asset-' . $request->asset_id . '-' . $file->getClientOriginalName();
+		$fileName = time() . '-' . $file->getClientOriginalName();
 		$filePath = $file->storeAs('uploads', $fileName, 'public');
         $fileSize = $file->getSize();
         
@@ -97,6 +80,5 @@ class DokumenAssetController extends Controller
                 'message'=> 'Data post berhasil di hapus!.'
             ]);
         };
-        
     }
 }

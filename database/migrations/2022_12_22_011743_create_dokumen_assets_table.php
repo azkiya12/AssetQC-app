@@ -17,7 +17,7 @@ class CreateDokumenAssetsTable extends Migration
             $table->id();
             $table->string('fileName');
             $table->string('filePath');
-            $table->string('fileSize');
+            $table->bigInteger('fileSize');
             $table->text('note')->nullable();
             $table->foreignId('asset_id')->references('id')->on('assets')->onDelete('cascade');
             $table->timestamps();

@@ -10,7 +10,7 @@
             <form action="#" method="POST" id="add_file_form" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <input type="hidden" name="asset_id" id="asset_id">
+                    <input type="hidden" name="asset_id" id="asset_id" value="{{ $item->id }}">
                     <div class="form-group">
                         <input type="file" class="form-control-file" id="fileUpload"
                             name="name">
@@ -61,26 +61,35 @@
             processData: false,
             dataType: 'json',
             success: function(response) {
-                // console.log('masuk success');
+                 console.log('masuk success');
                 if (response.status == 200) {
                     Swal.fire(
                         'Added!',
                         'Document Added Successfully!',
                         'success'
-                    )
-                    
+                    );
+
+                    let datanote = '';
+                    let routedata = `{{ route('destroy-file', ":id" ) }}`;
+                    routedata = routedata.replace(':id', response.data.id);
+
+                    if (response.data.note !== null) {
+                        datanote = response.data.note;
+                    }
                     // define variable post element row html
                     let addRow = `
                         <tr id="index_${response.data.id}">
                             <td><img src="${response.imagePath}" alt="" style="max-width: 150px"></td>
                             <td>${response.data.fileName}</td>
-                            <td>${response.data.note}</td>
+                            <td>${datanote}</td>
                             <td>${response.data.fileSize}</td>
                             <td>
                                 <a href="${response.imagePath}" class="btn btn-default btn-sm px-2" data-toggle="tooltip" data-placement="top" title="Download" target="_blank">
                                     <i class="fas fa-download fa-lg"></i>
                                 </a>
-                                <a href="javascript:void(0)" id="btn-delete-post" data-id="${response.data.id}" class="btn btn-danger btn-sm">DELETE</a>
+                                <a href="javascript:void(0)" id="btn-delete-post" 
+                                    data-id="${response.data.id}" data-route="${routedata}"
+                                    class="btn btn-danger btn-sm">DELETE</a>
                             </td>
                         </tr>
                     `;
@@ -91,7 +100,21 @@
                 $("#store").text('Save');
                 $("#add_file_form")[0].reset();
                 $("#modal-upload").modal('hide');
+            },
+            error: function(response) {
+                var errorMessage = '';
+                @foreach ($errors->all() as $error)
+                    errorMessage += '{{ $error }}';
+                    errorMessage += '\n';
+                @endforeach
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: errorMessage,
+                });
             }
+            
         });
 
     });

@@ -7,11 +7,10 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Manufaktur;
 use App\Models\Status;
-use App\Models\DokumenAsset;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssetRequest;
 use Illuminate\Support\Facades\Auth;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 
 class AssetController extends Controller

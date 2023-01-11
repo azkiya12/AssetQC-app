@@ -172,8 +172,9 @@
                                                     $pathInfo = pathinfo(asset('storage/' . $file->filePath));
                                                 @endphp
                                                 @if (in_array($pathInfo['extension'], $imageExtensions))
-                                                    <img src="{{ asset('storage/' . $file->filePath) }}" alt=""
-                                                style="max-width: 150px">
+                                                    <img src="{{ asset('storage/' . $file->filePath) }}" alt="" style="max-width: 150px">
+                                                @else
+                                                    @php echo $pathInfo['extension'] @endphp
                                                 @endif
                                             </td>
                                             <td>{{ $file->fileName }}</td>
