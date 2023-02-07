@@ -146,7 +146,9 @@
                         <div class="card-title">Categories</div>
                     </div>
                     <div class="pb-0 card-body">
+                        
                         @foreach ($categories as $category)
+                        
                             <div class="d-flex">
                                 <div class="flex-1 pt-1 ml-2">
                                     <h6 class="mb-1 fw-bold">{{$category->name}}</h6>

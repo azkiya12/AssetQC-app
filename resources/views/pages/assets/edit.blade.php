@@ -93,7 +93,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="status_id">Status</label>
-                                        <select name="status_id" class="form-control" id="status_id">
+                                        <select name="status_id" class="form-control " id="status_id">
                                             <option value="" {{$item->status_id ?? 'selected'}}>select status...
                                             </option>
                                             @foreach ($statuses as $status)
@@ -151,14 +151,15 @@
                                                         </div>
 
                                                     </div>
+
                                                     <div class="form-group">
                                                         <label for="location_id">Location Asset</label>
-                                                        <select class="form-control" id="location_id">
-                                                            <option value="{{$item->location_id}}" {{$item->location_id ?? 'selected'}}>
+                                                        <select name="location_id" class="form-control" id="location_id">
+                                                            <option value="" {{$item->location_id ?? 'selected'}}>
                                                                 select location...</option>
                                                             @foreach ($locations as $location)
                                                                 <option value="{{ $location->id }}" 
-                                                                {{$item->location_id == $location->id ? 'selected' : ''}}>
+                                                                    {{$item->location_id == $location->id ? 'selected' : ''}}>
                                                                     {{ $location->name }}
                                                                 </option>
                                                             @endforeach
@@ -207,23 +208,26 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="supplier_id">supplier_id</label>
-                                                        <select class="form-control" id="supplier_id">
-                                                            <option selected>select...</option>
-                                                            <option>supplier_id 1</option>
-                                                            <option>supplier_id 2</option>
-                                                            <option>supplier_id 3</option>
-                                                            <option>supplier_id 4</option>
-                                                            <option>supplier_id 5</option>
+                                                        <select name="supplier_id" class="form-control" id="supplier_id">
+                                                            <option value="" {{$item->supplier_id ?? 'selected'}}>
+                                                                select location...</option>
+                                                            @foreach ($suppliers as $supplier)
+                                                                <option value="{{ $supplier->id }}" 
+                                                                    {{ $item->supplier_id == $supplier->id ? 'selected' : '' }}>
+                                                                    {{ $supplier->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
+                                                        
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="order_no">Order No</label>
-                                                        <input type="text" class="form-control" id="order_no"
+                                                        <input type="text" name="order_no" class="form-control" id="order_no"
                                                             placeholder="">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="condition">Condition</label>
-                                                        <input type="text" class="form-control" id="condition"
+                                                        <input type="text" name="condition" class="form-control" id="condition"
                                                             placeholder="">
                                                     </div>
                                                 </div>

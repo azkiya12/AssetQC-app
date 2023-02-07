@@ -4,15 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Asset extends Model
 {
     use HasFactory;
+    use LogsActivity;
+    protected static $logName = 'Asset';
+    protected static $logFillable = true;
     protected $fillable = [
-        'asset_taq', 'name', 'model', 'serial', 'condition', 'warranty_months', 'receipt_date', 'purchase_date', 'purchase_cost', 'order_no', 'photo', 'notes', 'category_id', 'manufaktur_id', 'location_id', 'status_id', 'user_id'
+        'asset_taq', 'name', 'model', 'serial', 'condition', 'warranty_months', 'receipt_date', 'purchase_date', 'purchase_cost', 'order_no', 'photo', 'notes', 'category_id', 'manufaktur_id', 'location_id', 'status_id', 'user_id', 'supplier_id'
     ];
 
-    public function user(): belongsTo
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('Asset')
+            ->logOnly(['asset_taq', 'name', 'model', 'serial', 'condition', 'warranty_months', 'receipt_date', 'purchase_date', 'purchase_cost', 'order_no', 'photo', 'notes', 'category_id', 'manufaktur_id', 'location_id', 'status.name'])
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(
+                fn(string $eventName) => "This model has been {$eventName}"
+            );
+    }
+
+    public function user()
     {
       return $this->belongsTo('App\Models\User');
     }

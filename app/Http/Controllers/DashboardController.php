@@ -12,8 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $assets = Asset::all();
-        $categories = Category::all();
+        $assets = Asset::all()->sortByDesc('created_at')->take(10);
+        $categories = Category::withCount('assets')->orderBy('assets_count', 'desc')->take(5)->get();
         $location = Location::all();
         $users = User::all();
 

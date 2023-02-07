@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="sidebar sidebar-style-2" data-background-color="dark">
+<div class="sidebar sidebar-style-2 d-print-none" data-background-color="dark">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
 
@@ -15,13 +15,11 @@
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
                 </li>
-
                 <li class="nav-item {{ (request()->is('asset*')) ? 'active' : '' }}">
                     <a href="{{route('asset.index')}}">
                         <i class="fas fa-desktop"></i>
                         <p>Assets</p>
                     </a>
-
                 </li>
                 <li class="nav-item {{ (request()->is('categories*')) ? 'active' : '' }}">
                     <a href="{{ route('categories.index')}}">
@@ -52,28 +50,11 @@
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
                 </li>
-
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#suppliers">
+                <li class="nav-item {{ (request()->is('suppliers*')) ? 'active' : '' }}">
+                    <a href="{{route('suppliers.index')}}">
                         <i class="fas fa-handshake"></i>
                         <p>Suppliers</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="suppliers">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#suplier-index">
-                                    <span class="sub-item">Index</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#suplier-categories">
-                                    <span class="sub-item">Categories</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#users">
@@ -93,7 +74,6 @@
                         <p>Setting</p>
                     </a>
                 </li>
-
             </ul>
         </div>
     </div>

@@ -19,6 +19,9 @@ class StatusController extends Controller
         {
             $query = Status::query();
             return DataTables::of($query)
+            ->editColumn('name', function($item){
+                return '<span class="badge badge-' . $item->warna . '">'. $item->name .'</span>';
+            })
             ->addColumn('action', function($item){
                     return '
                         <div class="btn-group">
@@ -28,10 +31,10 @@ class StatusController extends Controller
                                         data-toggle="dropdown">Aksi
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="action' .  $item->id . '">
-                                    <a class="dropdown-item" href="'. route('categories.edit', $item->id) .'">
+                                    <a class="dropdown-item" href="'. route('status.edit', $item->id) .'">
                                         Edit
                                     </a>
-                                    <form action="'. route('categories.destroy', $item->id) .'" method="POST">
+                                    <form action="'. route('status.destroy', $item->id) .'" method="POST">
                                         '. method_field('delete') . csrf_field() .'
                                         <button type="submit" class="dropdown-item text-danger">
                                             Hapus
@@ -45,7 +48,7 @@ class StatusController extends Controller
             ->editColumn('created_at', function($item){
                 return $item->created_at ? $item->created_at->format('Y-m-d') : '';
             })
-            ->rawColumns(['action', 'created_at'])
+            ->rawColumns(['name','action', 'created_at'])
             ->make();
         }
         return view('pages.status.index');

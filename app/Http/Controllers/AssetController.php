@@ -7,11 +7,13 @@ use App\Models\Category;
 use App\Models\Location;
 use App\Models\Manufaktur;
 use App\Models\Status;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssetRequest;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
+use PDF; //library pdf
 
 class AssetController extends Controller
 {
@@ -25,6 +27,7 @@ class AssetController extends Controller
         if (request()->ajax()) {
             $query = Asset::with('category','location','manufaktur', 'status');
             return DataTables::of($query)
+                ->addIndexColumn()
                 ->addColumn('action', function ($item) {
                     return '
                         <div class="btn-group">
@@ -74,12 +77,13 @@ class AssetController extends Controller
         $locations = Location::all();
         $manufakturs = Manufaktur::all();
         $statuses = Status::all();
-        
+        $suppliers = Supplier::all();
         return view('pages.assets.create', [
             'categories'=>$categories,
             'locations'=>$locations,
             'manufakturs'=>$manufakturs,
             'statuses'=>$statuses,
+            'suppliers'=>$suppliers,
         ]);
     }
 
@@ -93,7 +97,11 @@ class AssetController extends Controller
     {
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
-        $data['photo'] = $request->file('photo')->store('assets/img', 'public');
+        if($request->hasFile('photo'))
+        {
+            $data['photo'] = $request->file('photo')->store('assets/img', 'public');
+        }
+        
         Asset::create($data);
     
         return redirect()->route('asset.index');
@@ -107,8 +115,9 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
+        
         return view('pages.assets.show', [
-            'item'=>$asset, 
+            'item'=>$asset,
         ]);
     }
 
@@ -124,12 +133,14 @@ class AssetController extends Controller
         $locations = Location::all();
         $manufakturs = Manufaktur::all();
         $statuses = Status::all();
+        $suppliers = Supplier::all();
         return view('pages.assets.edit', [
             'item'=>$asset, 
             'categories'=>$categories,
             'locations'=>$locations,
             'manufakturs'=>$manufakturs,
-            'statuses'=>$statuses
+            'statuses'=>$statuses,
+            'suppliers'=>$suppliers,
         ]);
     }
 
@@ -160,7 +171,7 @@ class AssetController extends Controller
             $new_image = $request->file('photo')->store('assets/img', 'public');
             $data['photo'] = $new_image;
         }
-        $asset->update($data);   
+        $asset->update($data);
         return redirect()->route('asset.index');
     }
 
@@ -177,6 +188,26 @@ class AssetController extends Controller
         if($asset->photo && file_exists(storage_path('app/public/' . $asset->photo))){
                 Storage::delete('public/' . $asset->name);
         }
+    }
 
+    public function export()
+    {
+        //mengambil data dan tampilan dari halaman laporan_pdf
+        //data di bawah ini bisa kalian ganti nantinya dengan data dari database
+        $data = PDF::loadview('laporan_pdf', ['data' => 'ini adalah contoh laporan PDF']);
+        //mendownload laporan.pdf
+        return $data->download('laporan.pdf');
+    }
+    
+    public static  function convertUploadedFileToHumanReadable($size, $precision = 2)
+    {
+        if ( $size > 0 ) {
+            $size = (int) $size;
+            $base = log($size) / log(1024);
+            $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
+            return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
+        }
+
+        return $size;
     }
 }

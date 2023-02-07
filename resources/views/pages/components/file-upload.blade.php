@@ -69,20 +69,19 @@
                         'success'
                     );
 
-                    let datanote = '';
                     let routedata = `{{ route('destroy-file', ":id" ) }}`;
                     routedata = routedata.replace(':id', response.data.id);
 
                     if (response.data.note !== null) {
                         datanote = response.data.note;
                     }
-                    // define variable post element row html
+                    // define variable post element row html                    
                     let addRow = `
                         <tr id="index_${response.data.id}">
                             <td><img src="${response.imagePath}" alt="" style="max-width: 150px"></td>
                             <td>${response.data.fileName}</td>
-                            <td>${datanote}</td>
-                            <td>${response.data.fileSize}</td>
+                            <td>${response.data.note}</td>
+                            <td>${formatFileSize(response.data.fileSize)}</td>
                             <td>
                                 <a href="${response.imagePath}" class="btn btn-default btn-sm px-2" data-toggle="tooltip" data-placement="top" title="Download" target="_blank">
                                     <i class="fas fa-download fa-lg"></i>
@@ -118,5 +117,14 @@
         });
 
     });
+
+    function formatFileSize(bytes,decimalPoint) {
+        if(bytes == 0) return '0 Bytes';
+        var k = 1000,
+            dm = decimalPoint || 2,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
 </script>
 @endpush

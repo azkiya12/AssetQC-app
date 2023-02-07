@@ -36,7 +36,7 @@
                     <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
                     <thead>
                         <tr>
-                            <th scope="col"></th>
+                            <th scope="col">No.</th>
                             <th scope="col">Name</th>
                             <th scope="col">Slug</th>
                             <th scope="col">Created At</th>
@@ -71,7 +71,7 @@
                 url: '{!! url()->current() !!}',
             },
             columns: [
-                { data: 'id', name: 'id' },
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false  },
                 { data: 'name', name: 'name' },
                 { data: 'slug', name: 'slug' },
                 { data: 'created_at', name: 'created_at'},

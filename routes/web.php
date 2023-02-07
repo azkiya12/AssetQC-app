@@ -6,7 +6,9 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DokumenAssetController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExcelCSVController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/store-file', [DokumenAssetController::class, 'store'])->name('upload-file');
     Route::delete('/destroy-file/{id}', [DokumenAssetController::class, 'destroy'])->name('destroy-file');
     Route::get('download-file/{id}', [DokumenAssetController::class, 'download'])->name('download-file');
+    Route::resource('suppliers', SupplierController::class);
 });
 
 require __DIR__.'/auth.php';

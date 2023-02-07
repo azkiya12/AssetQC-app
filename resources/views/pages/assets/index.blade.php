@@ -31,7 +31,9 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-left card-title">Asset</div>
+                    
                     <a href="{{ route('asset.create') }}" class="float-right btn btn-primary">+ Tambah Asset</a>
+                    <a href="{{ route('asset.create') }}" class="float-right btn btn-outline-success mr-2">Export Excel</a>
                 </div>
                 <div class="card-body">
 
@@ -39,7 +41,7 @@
                         <table class="table table-hover scroll-horizontal-vertical w-100" id="crudTable">
                             <thead>
                                 <tr>
-                                    <th scope="col"></th>
+                                    <th scope="col">No.</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Asset Taq</th>
@@ -80,10 +82,7 @@
             ajax: {
                 url: '{!! url()->current() !!}',
             },
-            columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
+            columns: [{ data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false  },
                 {
                     data: 'name',
                     name: 'name'

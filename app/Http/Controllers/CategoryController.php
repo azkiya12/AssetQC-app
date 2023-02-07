@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use DataTables;
 
 class CategoryController extends Controller
@@ -20,6 +19,8 @@ class CategoryController extends Controller
         {
             $query = Category::query();
             return DataTables::of($query)
+            ->addIndexColumn()
+            
             ->addColumn('action', function($item){
                     return '
                         <div class="btn-group">
@@ -71,9 +72,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
+        // $data['slug'] = Str::slug($request->name);
 
         Category::create($data);
+        activity()->log('Create new Category');
         return redirect()->route('categories.index');
     }
 
@@ -98,9 +100,10 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
+        // $data['slug'] = Str::slug($request->name);
 
         $category->update($data);
+        
         return redirect()->route('categories.index');
     }
 

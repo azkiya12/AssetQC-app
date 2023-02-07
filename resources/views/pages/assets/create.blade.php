@@ -126,11 +126,10 @@
                                                                     id="warranty_months">Months</span>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="location_id">Location Asset</label>
-                                                        <select class="form-control" id="location_id">
+                                                        <select class="form-control" name="location_id" id="location_id">
                                                             <option selected value="">select...</option>
                                                             @foreach ($locations as $location)
                                                                 <option value="{{ $location->id }}">{{ $location->name }}
@@ -141,7 +140,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="accordion accordion-info">
@@ -163,7 +161,7 @@
                                                         <input type="date" name="receipt_date" value="" class="form-control" min="2000-05-01" max="2030-12-31" />
                                                     </div>
                                                     <div class="form-group col-12 col-md-6">
-                                                        <label for="purchase_date">Durchase Date</label>
+                                                        <label for="purchase_date">Purchase Date</label>
                                                         <input type="date" name="purchase_date" value="" class="form-control" min="2000-05-01" max="2030-12-31" />
                                                     </div>
                                                     <div class="form-group">
@@ -180,14 +178,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="supplier_id">supplier_id</label>
-                                                        <select class="form-control" id="supplier_id">
-                                                            <option selected>select...</option>
-                                                            <option>supplier_id 1</option>
-                                                            <option>supplier_id 2</option>
-                                                            <option>supplier_id 3</option>
-                                                            <option>supplier_id 4</option>
-                                                            <option>supplier_id 5</option>
+                                                        <label for="supplier_id">Supplier</label>
+                                                        <select class="form-control" name="supplier_id" id="supplier_id">
+                                                            <option selected value="">select...</option>
+                                                            @foreach ($suppliers as $supplier)
+                                                                <option value="{{ $supplier->id }}">{{ $supplier->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
