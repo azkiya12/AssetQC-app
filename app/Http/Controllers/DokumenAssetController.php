@@ -58,9 +58,11 @@ class DokumenAssetController extends Controller
 
     public function download($id)
     {
-        $path = DokumenAsset::where('id',$id)->value();
-        return Storage::download($path);
+        $path = DokumenAsset::where('filename',$id)->firstOrFail();
+        $pathFile = public_path('/storage/'.$path->filePath);
+        return response()->download($pathFile);
     }
+    
 
     /**
      * Remove the specified resource from storage.

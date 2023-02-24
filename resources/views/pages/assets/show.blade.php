@@ -214,7 +214,8 @@
                                                 @inject('humanSize', 'App\Http\Controllers\AssetController')
                                                 <td>{{ $humanSize::convertUploadedFileToHumanReadable($file->fileSize) }}</td>
                                                 <td>
-                                                    <a href="{{ asset('storage/' . $file->filePath) }}"
+                                                    
+                                                    <a href="{!! route('download-file', $file->fileName) !!}"
                                                         class="btn btn-default btn-sm px-2" data-toggle="tooltip"
                                                         data-placement="top" target="_blank" title="Download">
                                                         <i class="fas fa-download fa-lg"></i>
